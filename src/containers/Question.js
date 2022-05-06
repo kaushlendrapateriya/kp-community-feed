@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import withRouter from  "../withRouter";
 import Card from "../components/Card/Card";
+import Helmet from "react-helmet";
 
 const QuestionWrapper = styled.div`
     display: flex;
@@ -50,9 +51,16 @@ class Question extends Component {
 
     render() {
         const { data, loading, error } = this.state;
-
+        
         if ( loading || error ) {
-            return <Alert>{ loading ? 'Loading...' : error }</Alert>;
+            return(
+                <>
+                    <Helmet>
+                        <title>{`Q&A Feed - Question #${this.props.params.qId}`}</title>
+                    </Helmet>
+                    <Alert>{ loading ? 'Loading...' : error }</Alert>
+                </>
+            );
         }
 
         return (

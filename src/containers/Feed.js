@@ -4,6 +4,7 @@ import Card from "../components/Card/Card";
 import { Link } from "react-router-dom";
 import withRouter from "../withRouter";
 import queryString from 'query-string';
+import Helmet from "react-helmet";
 
 const FeedWrapper = styled.div`
     display: flex;
@@ -88,7 +89,14 @@ class Feed extends Component {
         const { data, page, loading, error } = this.state;
 
         if (loading || error) {
-            return <Alert>{loading ? 'Loading...' : error}</Alert>;
+            return(
+                <>
+                    <Helmet>
+                        <title>Q&A Feed - Questions</title>
+                    </Helmet>
+                    <Alert>{loading ? 'Loading...' : error}</Alert>
+                </>
+            );
         }
 
         return (

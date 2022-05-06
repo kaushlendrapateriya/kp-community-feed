@@ -5,6 +5,7 @@ import React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import App from '../src/containers/App';
+import Helmet from 'react-helmet';
 
 const PORT = 8080;
 const app = express();
@@ -19,6 +20,8 @@ app.get('/*', (req, res) => {
         </StaticRouter>,
     );
 
+    const helmet = Helmet.renderStatic();
+
     const indexFile = path.resolve('./build/index.html');
     fs.readFile(indexFile, 'utf8', (err, data) => {
         if ( err ) {
@@ -27,6 +30,7 @@ app.get('/*', (req, res) => {
         }
 
         data = data.replace('<div id="root"></div>', `<div id="root">${app}</div>`);
+        data = data.replace('<meta name="helmet" />', `${helmet.title.toString()}${helmet.meta.toString()}`);
 
         return res.send(data);
     });
